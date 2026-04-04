@@ -9,7 +9,7 @@ export default function Hero() {
             <div className="hero-container">
                 <div className="hero-badge">
                     <span className="hero-badge-dot">●</span>
-                    <span>AI-assisted clinical and behavioral intelligence</span>
+                    <span>AI-assisted Clinical and Behavioral Intelligence</span>
                 </div>
 
                 <h1 className="hero-title">
