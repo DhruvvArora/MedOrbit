@@ -8,8 +8,8 @@ Ordered by sequence_number within a visit.
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
 
@@ -28,6 +28,17 @@ class TranscriptChunk(Base):
     """
 
     __tablename__ = "transcript_chunks"
+    __table_args__ = (
+        UniqueConstraint("visit_id", "sequence_number", name="uq_visit_sequence"),
+        CheckConstraint(
+            "source_type IN ('manual', 'transcribed', 'simulated')",
+            name="ck_source_type",
+        ),
+        CheckConstraint(
+            "speaker_role IN ('doctor', 'patient', 'system')",
+            name="ck_speaker_role",
+        ),
+    )
 
     id: Mapped[str] = mapped_column(
         String(36),
@@ -55,6 +66,9 @@ class TranscriptChunk(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=_utcnow, nullable=False
     )
+
+    # ── Relationships ─────────────────────────────────────────
+    visit = relationship("Visit", back_populates="transcript_chunks")
 
     def __repr__(self) -> str:
         return f"<TranscriptChunk visit={self.visit_id} seq={self.sequence_number} speaker={self.speaker_role}>"

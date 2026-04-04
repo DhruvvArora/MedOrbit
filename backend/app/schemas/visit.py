@@ -54,4 +54,9 @@ class VisitResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+    transcript_chunk_count: int = Field(
+        default=0,
+        description="Number of transcript chunks attached to this visit.",
+    )
+
     model_config = {"from_attributes": True}

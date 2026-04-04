@@ -24,3 +24,10 @@ email-validator==2.2.0
 
 # CORS & HTTP
 python-multipart==0.0.20
+
+# AI Agents
+openai>=1.14.0
+
+# Local Behavioral RAG (Component 11)
+faiss-cpu>=1.7.4
+sentence-transformers>=2.2.2

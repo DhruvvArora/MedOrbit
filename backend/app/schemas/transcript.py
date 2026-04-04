@@ -1,12 +1,12 @@
 """
 MedOrbit — Transcript Schemas (Pydantic v2)
 
-Request/response models for transcript chunk ingestion and retrieval.
+Request/response models for transcript chunk ingestion, retrieval, and stats.
 """
 
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -79,3 +79,37 @@ class BulkCreateResponse(BaseModel):
     visit_id: str
     chunks_created: int
     chunks: List[ChunkResponse]
+
+
+class TranscriptStatsResponse(BaseModel):
+    """
+    Transcript statistics for a visit.
+
+    Useful for:
+    - Frontend indicators (badge counts, progress)
+    - Agent pre-processing checks (enough data to analyse?)
+    """
+    visit_id: str
+    total_chunks: int
+    speaker_breakdown: Dict[str, int] = Field(
+        default_factory=dict,
+        description="Count of chunks per speaker role.",
+        examples=[{"doctor": 10, "patient": 12}],
+    )
+    source_breakdown: Dict[str, int] = Field(
+        default_factory=dict,
+        description="Count of chunks per source type.",
+        examples=[{"manual": 5, "simulated": 17}],
+    )
+    first_chunk_at: Optional[str] = Field(
+        None,
+        description="ISO timestamp of the first chunk.",
+    )
+    last_chunk_at: Optional[str] = Field(
+        None,
+        description="ISO timestamp of the last chunk.",
+    )
+    total_characters: int = Field(
+        0,
+        description="Total character count across all chunks.",
+    )

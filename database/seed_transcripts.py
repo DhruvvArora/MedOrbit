@@ -4,6 +4,8 @@ MedOrbit — Transcript Seed Script
 Injects realistic medical dialogue into existing demo visits.
 Requires seed.py (users) and seed_visits.py (visits) to have run first.
 
+Idempotent — safe to run multiple times (skips visits that already have chunks).
+
 Usage:
     cd backend
     python ../database/seed_transcripts.py
@@ -15,10 +17,7 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 
 from app.core.database import SessionLocal, engine
-from app.models.base import Base
-from app.models.user import User
-from app.models.visit import Visit
-from app.models.transcript import TranscriptChunk
+from app.models import Base, User, Visit, TranscriptChunk
 
 # ── Realistic Medical Dialogues ──────────────────────────────
 
@@ -74,14 +73,58 @@ HYPERTENSION_DIALOGUE = [
     ("doctor", "Dr. Sarah Chen", "We can take it step by step. Small consistent changes compound over time. I'll create a care plan with specific, actionable steps and we'll follow up in two weeks."),
 ]
 
+# Short in-person follow-up — for the "scheduled" visit scenario
+# (demonstrates what a future visit transcript might look like)
+FOLLOWUP_DIALOGUE = [
+    ("system", "System", "Virtual consultation session started."),
+    ("doctor", "Dr. Sarah Chen", "Good morning, Alex. This is our two-week follow-up. How's the knee doing?"),
+    ("patient", "Alex Johnson", "Actually, it's been much better. I've been resting it and doing the stretches you suggested."),
+    ("doctor", "Dr. Sarah Chen", "That's great to hear. And how about the blood pressure? Have you been checking it at home?"),
+    ("patient", "Alex Johnson", "Yes, the readings have been around 135 over 88. Still a bit high but trending down."),
+    ("doctor", "Dr. Sarah Chen", "Good progress. Have you been reducing the salt intake like we discussed?"),
+    ("patient", "Alex Johnson", "I have. My wife has been helping with meal prep. Less eating out too."),
+    ("doctor", "Dr. Sarah Chen", "Excellent. And sleep? How many hours are you getting now?"),
+    ("patient", "Alex Johnson", "I'm up to about 6 hours. Still not great, but better than before."),
+    ("doctor", "Dr. Sarah Chen", "That's a meaningful improvement. Let's keep building on it. I'd like to see you again in a month, and we'll decide about medication then based on how the numbers look."),
+    ("patient", "Alex Johnson", "Sounds good, Doctor. Thanks for following up."),
+    ("system", "System", "Virtual consultation session ended."),
+]
+
+
+def _seed_dialogue(db, visit, dialogue, source_type="simulated"):
+    """Seed a single dialogue into a visit, skipping if chunks already exist."""
+    existing = (
+        db.query(TranscriptChunk)
+        .filter(TranscriptChunk.visit_id == visit.id)
+        .count()
+    )
+    if existing > 0:
+        print(f"  ⏭  Skipped '{visit.title}' (already has {existing} chunks)")
+        return 0
+
+    for i, (role, label, text) in enumerate(dialogue, start=1):
+        chunk = TranscriptChunk(
+            visit_id=visit.id,
+            sequence_number=i,
+            speaker_role=role,
+            speaker_label=label,
+            text=text,
+            source_type=source_type,
+        )
+        db.add(chunk)
+
+    count = len(dialogue)
+    print(f"  ✅ Seeded {count} chunks into '{visit.title}'")
+    return count
+
 
 def seed_transcripts():
-    """Insert transcript chunks into active and completed visits."""
+    """Insert transcript chunks into demo visits."""
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
     try:
-        # Find the active visit (knee pain) and completed visit (initial intake)
+        # Find visits by status and title pattern
         active_visit = (
             db.query(Visit)
             .filter(Visit.status == "active", Visit.title.like("%Knee%"))
@@ -92,59 +135,35 @@ def seed_transcripts():
             .filter(Visit.status == "completed", Visit.title.like("%Initial%"))
             .first()
         )
+        scheduled_visit = (
+            db.query(Visit)
+            .filter(Visit.status == "scheduled", Visit.title.like("%Routine%"))
+            .first()
+        )
 
-        seeded = 0
+        total_seeded = 0
 
+        # Active visit: Knee pain dialogue (in-progress consultation)
         if active_visit:
-            existing = (
-                db.query(TranscriptChunk)
-                .filter(TranscriptChunk.visit_id == active_visit.id)
-                .count()
-            )
-            if existing == 0:
-                for i, (role, label, text) in enumerate(KNEE_PAIN_DIALOGUE, start=1):
-                    chunk = TranscriptChunk(
-                        visit_id=active_visit.id,
-                        sequence_number=i,
-                        speaker_role=role,
-                        speaker_label=label,
-                        text=text,
-                        source_type="simulated",
-                    )
-                    db.add(chunk)
-                    seeded += len(KNEE_PAIN_DIALOGUE)
-                print(f"  ✅ Seeded {len(KNEE_PAIN_DIALOGUE)} chunks into Active visit (Knee Pain)")
-            else:
-                print(f"  ⏭  Skipped Active visit (already has {existing} chunks)")
+            total_seeded += _seed_dialogue(db, active_visit, KNEE_PAIN_DIALOGUE)
         else:
             print("  ⚠️  No active 'Knee Pain' visit found — skipping")
 
+        # Completed visit: Full hypertension intake
         if completed_visit:
-            existing = (
-                db.query(TranscriptChunk)
-                .filter(TranscriptChunk.visit_id == completed_visit.id)
-                .count()
-            )
-            if existing == 0:
-                for i, (role, label, text) in enumerate(HYPERTENSION_DIALOGUE, start=1):
-                    chunk = TranscriptChunk(
-                        visit_id=completed_visit.id,
-                        sequence_number=i,
-                        speaker_role=role,
-                        speaker_label=label,
-                        text=text,
-                        source_type="simulated",
-                    )
-                    db.add(chunk)
-                    seeded += len(HYPERTENSION_DIALOGUE)
-                print(f"  ✅ Seeded {len(HYPERTENSION_DIALOGUE)} chunks into Completed visit (Initial intake)")
-            else:
-                print(f"  ⏭  Skipped Completed visit (already has {existing} chunks)")
+            total_seeded += _seed_dialogue(db, completed_visit, HYPERTENSION_DIALOGUE)
         else:
             print("  ⚠️  No completed 'Initial intake' visit found — skipping")
 
+        # Scheduled visit: Left intentionally empty for demo purposes
+        # This shows what a visit looks like BEFORE transcript ingestion.
+        if scheduled_visit:
+            print(f"  📋 Scheduled visit '{scheduled_visit.title}' left with no transcript (demo: empty state)")
+        else:
+            print("  ⚠️  No scheduled visit found — skipping")
+
         db.commit()
-        print(f"\nTranscript seed complete: {seeded} chunks created.")
+        print(f"\n🎉 Transcript seed complete: {total_seeded} total chunks created.")
 
     except Exception as e:
         db.rollback()

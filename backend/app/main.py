@@ -17,6 +17,14 @@ from app.models.base import Base
 from app.routes import auth as auth_routes
 from app.routes import visits as visits_routes
 from app.routes import transcripts as transcripts_routes
+from app.routes import behavioral as behavioral_routes
+from app.routes import triage as triage_routes
+from app.routes import reports as reports_routes
+from app.routes import patient as patient_routes
+from app.routes import patient_chat as patient_chat_routes
+from app.routes import reminders as reminder_doctor_routes
+from app.models.report import VisitReport
+from app.models.reminder import Reminder  # Database auto-discovery hook
 
 # ── Create Tables (dev convenience — use Alembic in production) ──
 Base.metadata.create_all(bind=engine)
@@ -49,6 +57,13 @@ app.add_middleware(
 app.include_router(auth_routes.router, prefix="/api")
 app.include_router(visits_routes.router, prefix="/api")
 app.include_router(transcripts_routes.router, prefix="/api")
+app.include_router(behavioral_routes.router, prefix="/api")
+app.include_router(triage_routes.router, prefix="/api")
+app.include_router(reports_routes.orchestration_router, prefix="/api")
+app.include_router(reports_routes.report_router, prefix="/api")
+app.include_router(reminder_doctor_routes.router, prefix="/api")
+app.include_router(patient_routes.router, prefix="/api")
+app.include_router(patient_chat_routes.router, prefix="/api")
 
 
 # ── Health Check ─────────────────────────────────────────────

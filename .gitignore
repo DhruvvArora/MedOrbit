@@ -31,3 +31,11 @@ node_modules
 .venv/
 venv/
 
+
+# Excluded for Push
+resources/
+agents/psychologist_knowledge/data/
+backend/medorbit.db
+*.faiss
+*__pycache__/
+*.pyc

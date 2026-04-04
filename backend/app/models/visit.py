@@ -7,8 +7,9 @@ Anchors all transcripts, agent outputs, and final reports.
 
 import uuid
 from datetime import datetime, timezone
+from typing import List
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, String
+from sqlalchemy import Boolean, DateTime, ForeignKey, String, func, select
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
@@ -61,5 +62,23 @@ class Visit(Base):
         DateTime(timezone=True), default=_utcnow, onupdate=_utcnow, nullable=False
     )
 
+    # ── Relationships ─────────────────────────────────────────
+    # Uses string reference to avoid circular import.
+    # back_populates links to TranscriptChunk.visit (set on that side).
+    transcript_chunks: Mapped[List["TranscriptChunk"]] = relationship(
+        "TranscriptChunk",
+        back_populates="visit",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+
+    @property
+    def transcript_chunk_count(self) -> int:
+        """Number of transcript chunks attached to this visit."""
+        if self.transcript_chunks is None:
+            return 0
+        return len(self.transcript_chunks)
+
     def __repr__(self) -> str:
         return f"<Visit {self.id} status={self.status} type={self.type}>"
+

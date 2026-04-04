@@ -19,8 +19,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 
 from app.core.database import SessionLocal, engine
 from app.core.security import hash_password
-from app.models.base import Base
-from app.models.user import User
+from app.models import Base, User
 
 # ── Demo Users ───────────────────────────────────────────────
 

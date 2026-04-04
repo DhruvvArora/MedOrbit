@@ -5,6 +5,7 @@ POST /api/visits/{visit_id}/transcripts/chunks     — Add single chunk
 POST /api/visits/{visit_id}/transcripts/bulk        — Add multiple chunks
 GET  /api/visits/{visit_id}/transcripts/chunks      — Get ordered chunks
 GET  /api/visits/{visit_id}/transcripts/plaintext   — Get plaintext for AI
+GET  /api/visits/{visit_id}/transcripts/stats        — Get transcript statistics
 """
 
 from typing import List
@@ -21,6 +22,7 @@ from app.schemas.transcript import (
     ChunkCreateRequest,
     ChunkResponse,
     TranscriptPlaintextResponse,
+    TranscriptStatsResponse,
 )
 from app.services.transcript_service import (
     TranscriptServiceError,
@@ -28,6 +30,7 @@ from app.services.transcript_service import (
     add_chunks_bulk,
     get_chunks,
     get_plaintext,
+    get_stats,
 )
 
 router = APIRouter(
@@ -44,6 +47,12 @@ router = APIRouter(
     response_model=ChunkResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Add a single transcript chunk",
+    responses={
+        400: {"description": "Visit is not active"},
+        403: {"description": "Not the assigned doctor"},
+        409: {"description": "Sequence number collision"},
+        422: {"description": "Empty transcript text"},
+    },
 )
 def add_single_chunk(
     body: ChunkCreateRequest,
@@ -56,6 +65,7 @@ def add_single_chunk(
     - Only the assigned doctor can write.
     - Visit must be in 'active' status.
     - sequence_number is auto-assigned if omitted.
+    - Text is whitespace-normalized before storage.
     """
     try:
         return add_chunk(
@@ -76,6 +86,12 @@ def add_single_chunk(
     response_model=BulkCreateResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Add multiple transcript chunks at once",
+    responses={
+        400: {"description": "Visit is not active"},
+        403: {"description": "Not the assigned doctor"},
+        409: {"description": "Sequence number collision in batch"},
+        422: {"description": "Empty transcript text in batch"},
+    },
 )
 def add_bulk_chunks(
     body: BulkChunkCreateRequest,
@@ -89,6 +105,7 @@ def add_bulk_chunks(
     - Only the assigned doctor can write.
     - Visit must be in 'active' status.
     - sequence_numbers are auto-assigned for chunks that don't include them.
+    - All-or-nothing: if any chunk fails validation, none are saved.
     """
     try:
         chunks_data = [
@@ -155,3 +172,27 @@ def get_transcript_plaintext(
         text=text,
         chunk_count=count,
     )
+
+
+@router.get(
+    "/stats",
+    response_model=TranscriptStatsResponse,
+    summary="Get transcript statistics",
+)
+def get_transcript_stats(
+    visit: Visit = Depends(require_visit_participant),
+    db: Session = Depends(get_db),
+):
+    """
+    Retrieve transcript metadata and statistics.
+
+    Returns:
+    - total chunk count
+    - speaker role breakdown (how many chunks per role)
+    - source type breakdown
+    - timestamp range
+    - total character count
+
+    Useful for UI badges and agent pre-processing checks.
+    """
+    return get_stats(db=db, visit_id=visit.id)
