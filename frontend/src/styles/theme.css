@@ -1,0 +1,21 @@
+:root {
+    --bg: #f6f2eb;
+    --bg-soft: #fbf8f3;
+    --surface: rgba(255, 255, 255, 0.55);
+
+    --text: #1f2421;
+    --text-muted: #5f6662;
+
+    --border: rgba(31, 36, 33, 0.08);
+
+    --teal: #69c4b8;
+    --teal-deep: #4ea89c;
+    --blue-soft: #8ebfe8;
+    --blue-wire: #8db8de;
+
+    --shadow-soft: 0 10px 30px rgba(60, 90, 80, 0.08);
+    --radius-pill: 999px;
+    --radius-xl: 28px;
+
+    --container: 1200px;
+}
