@@ -1,3 +1,5 @@
+/* ––––––––––––––– Reset / Base ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 * {
   margin: 0;
   padding: 0;
@@ -38,12 +40,18 @@ svg {
   max-width: 100%;
 }
 
+
+/* ––––––––––––––– App Shell / Theme Background ––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .app-shell {
   min-height: 100vh;
   background:
     radial-gradient(circle at top center, rgba(142, 191, 232, 0.08), transparent 35%),
     linear-gradient(to bottom, #f8f4ee, #f6f2eb);
 }
+
+
+/* ––––––––––––––– Navbar ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .navbar {
   width: 100%;
@@ -76,7 +84,20 @@ svg {
   font-weight: 600;
   cursor: pointer;
   box-shadow: var(--shadow-soft);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(105, 196, 184, 0.22);
+}
+
+.nav-cta:active {
+  transform: translateY(0);
+}
+
+
+/* ––––––––––––––– Hero Section Layout –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .hero-section {
   position: relative;
@@ -85,13 +106,18 @@ svg {
 }
 
 .hero-container {
-  max-width: 980px;
+  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   position: relative;
+  z-index: 2;
 }
 
+
+/* ––––––––––––––– Hero Badge ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .hero-badge {
+  margin-top: 68px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -110,12 +136,16 @@ svg {
   line-height: 1;
 }
 
+
+/* ––––––––––––––– Hero Typography ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .hero-title {
-  margin-top: 28px;
-  font-size: clamp(3.6rem, 8vw, 6.4rem);
+  margin-top: 48px;
+  font-size: clamp(3.6rem, 6vw, 6.4rem);
   line-height: 0.98;
   letter-spacing: -0.06em;
   font-weight: 700;
+  color: #1f2421;
 }
 
 .hero-title span {
@@ -124,34 +154,39 @@ svg {
 
 .hero-subtitle {
   max-width: 760px;
-  margin: 24px auto 0;
+  margin: 44px auto 0;
   font-size: 1.35rem;
   line-height: 1.65;
   color: var(--text-muted);
 }
 
+
+/* ––––––––––––––– Wire Blob / Listening Orb ––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .wireblob-wrap {
-  width: min(520px, 82vw);
-  margin: 70px auto 0;
-  opacity: 0.95;
-  animation: floatBlob 7s ease-in-out infinite;
+  width: min(620px, 78vw);
+  aspect-ratio: 1 / 1;
+  /* margin: 0 auto 0; */
+  position: relative;
+  opacity: 1;
 }
 
-.wireblob {
+.wireblob-canvas {
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 0 12px rgba(155, 211, 194, 0.16));
 }
 
-.wireblob path {
-  stroke: var(--blue-wire);
-  stroke-width: 1;
-}
+
+/* ––––––––––––––– Hero Background Glows ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .hero-bg-glow {
   position: absolute;
   border-radius: 999px;
   filter: blur(80px);
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero-bg-glow-one {
@@ -170,17 +205,8 @@ svg {
   right: 14%;
 }
 
-@keyframes floatBlob {
 
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-12px) rotate(1.5deg);
-  }
-}
+/* ––––––––––––––– Responsive Styles ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 @media (max-width: 900px) {
   .navbar {
@@ -195,8 +221,35 @@ svg {
     padding: 12px 22px;
   }
 
+  .hero-section {
+    padding: 20px 20px 64px;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 12vw, 4.8rem);
+  }
+
   .hero-subtitle {
     font-size: 1.08rem;
     line-height: 1.7;
+  }
+
+  .wireblob-wrap {
+    width: min(520px, 86vw);
+    margin-top: 44px;
+  }
+
+  .hero-bg-glow-one {
+    width: 240px;
+    height: 240px;
+    left: 2%;
+    top: 110px;
+  }
+
+  .hero-bg-glow-two {
+    width: 220px;
+    height: 220px;
+    right: 4%;
+    top: 280px;
   }
 }
