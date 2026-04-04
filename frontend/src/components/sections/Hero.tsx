@@ -1,4 +1,4 @@
-import WireBlob from "../visuals/WireBlob";
+import HeroBlob from "../visuals/HeroBlob";
 
 export default function Hero() {
     return (
@@ -9,19 +9,29 @@ export default function Hero() {
             <div className="hero-container">
                 <div className="hero-badge">
                     <span className="hero-badge-dot">●</span>
-                    <span>AI-assisted clinical conversation intelligence</span>
+                    <span>AI-assisted clinical and behavioral intelligence</span>
                 </div>
 
                 <h1 className="hero-title">
-                    Listen with <span>clarity.</span>
+                    Where conversations become <span>clinical intelligence.</span>
                 </h1>
 
                 <p className="hero-subtitle">
-                    Hearity captures relevant clinical context from doctor-patient
-                    conversations and turns it into usable, structured insight.
+                    MedOrbit listens during consultations, identifies relevant clinical and behavioral signals,
+                    and converts them into usable summaries, reports, and care insights.
                 </p>
+            </div>
 
-                <WireBlob />
+            {/* Blob sits outside hero-container so it's not clipped or doubled */}
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                overflow: "hidden",
+                marginTop: "1rem",
+            }}>
+                <HeroBlob />
             </div>
         </section>
     );
