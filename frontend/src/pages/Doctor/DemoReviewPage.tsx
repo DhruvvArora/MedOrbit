@@ -32,7 +32,7 @@ export function DemoReviewPage() {
         title="Session Review"
         subtitle="No live session data found."
         actions={
-          <button onClick={() => navigate("/live-consultation")}>
+          <button className="primary-button" onClick={() => navigate("/live-consultation")}>
             Start new consultation
           </button>
         }
@@ -64,17 +64,13 @@ export function DemoReviewPage() {
       actions={
         <>
           <button onClick={() => navigate("/")}>Back to home</button>
-          <button
-            className="primary-button"
-            onClick={() => navigate(dashboardPath)}
-          >
+          <button className="primary-button" onClick={() => navigate(dashboardPath)}>
             Go to dashboard
           </button>
         </>
       }
     >
       <div className="workspace-grid">
-        {/* Transcript panel */}
         <div className="panel-shell">
           <div className="panel-shell__header">
             <h3>Captured transcript</h3>
@@ -97,7 +93,6 @@ export function DemoReviewPage() {
           </div>
         </div>
 
-        {/* Insights panel */}
         <div className="panel-shell">
           <div className="panel-shell__header">
             <h3>AI draft observations</h3>
@@ -105,8 +100,8 @@ export function DemoReviewPage() {
           </div>
           <div className="panel-shell__body">
             <p className="panel-note" style={{ marginBottom: "1rem" }}>
-              These observations are AI-generated drafts from the live session.
-              They require clinician review before any patient-facing use.
+              These observations are AI-generated drafts from the live session. They require
+              clinician review before any patient-facing use.
             </p>
             {session.insights.length === 0 ? (
               <div className="empty-state">

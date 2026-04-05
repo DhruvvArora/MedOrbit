@@ -1,11 +1,11 @@
-import React from "react";
+import type { ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 interface Props {
   title: string;
   subtitle?: string;
-  actions?: React.ReactNode;
-  children: React.ReactNode;
+  actions?: ReactNode;
+  children: ReactNode;
 }
 
 function navigateTo(path: string) {
@@ -15,7 +15,14 @@ function navigateTo(path: string) {
 
 export function DoctorShell({ title, subtitle, actions, children }: Props) {
   const { logout, user } = useAuth();
-  const homePath = user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
+
+  const dashboardPath =
+    user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
+
+  const workspaceLabel =
+    user?.role === "doctor"
+      ? "Doctor workspace"
+      : "Consultation workspace";
 
   return (
     <div className="doctor-shell">
@@ -24,37 +31,30 @@ export function DoctorShell({ title, subtitle, actions, children }: Props) {
           <p className="eyebrow">
             <span
               className="doctor-shell__brand"
-              onClick={() => navigateTo(homePath)}
+              onClick={() => navigateTo("/")}
               style={{ cursor: "pointer", marginRight: "8px" }}
             >
               MedOrbit
             </span>
-            {user?.role === "doctor" ? "Doctor workspace" : "Consultation workspace"}
+            {workspaceLabel}
           </p>
           <h1>{title}</h1>
           {subtitle ? <p className="doctor-shell__subtitle">{subtitle}</p> : null}
         </div>
-        <div className="doctor-shell__actions" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          {actions}
-          <button
-            onClick={logout}
-            style={{
-              padding: "8px 16px",
-              border: "1px solid rgba(31,36,33,0.12)",
-              borderRadius: "12px",
-              background: "rgba(255,255,255,0.5)",
-              backdropFilter: "blur(4px)",
-              color: "var(--text-muted)",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-          >
-            Logout
+
+        <div
+          className="doctor-shell__actions"
+          style={{ display: "flex", gap: "8px", alignItems: "center" }}
+        >
+          <button onClick={() => navigateTo("/")}>Home</button>
+          <button className="primary-button" onClick={() => navigateTo(dashboardPath)}>
+            Dashboard
           </button>
+          {actions}
+          <button onClick={logout}>Logout</button>
         </div>
       </header>
+
       {children}
     </div>
   );
