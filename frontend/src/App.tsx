@@ -32,6 +32,8 @@ function App() {
   const isPatientPath = path.startsWith("/patient");
   const isLoginPath = path === "/login";
   const isRegisterPath = path === "/register";
+  const isSharedConsultationPath =
+    path === "/live-consultation" || path === "/live-consultation/review";
 
   /* ── Auth Pages ───────────────────────────────────────── */
   if (isLoginPath) {
@@ -47,6 +49,17 @@ function App() {
       <div className="app-shell">
         <RegisterPage />
       </div>
+    );
+  }
+
+  if (isSharedConsultationPath) {
+    return (
+      <ProtectedRoute>
+        <div className="app-shell doctor-app-shell">
+          {path === "/live-consultation" ? <LiveConsultationPage /> : null}
+          {path === "/live-consultation/review" ? <DemoReviewPage /> : null}
+        </div>
+      </ProtectedRoute>
     );
   }
 

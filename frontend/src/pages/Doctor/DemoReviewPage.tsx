@@ -1,6 +1,7 @@
 import { DoctorShell } from "../../components/doctor/DoctorShell";
 import { DEMO_SESSION_KEY } from "./LiveConsultationPage";
 import { navigate } from "./router";
+import { useAuth } from "../../context/AuthContext";
 
 interface DemoSession {
   visitId: string;
@@ -21,6 +22,9 @@ function loadDemoSession(): DemoSession | null {
 
 export function DemoReviewPage() {
   const session = loadDemoSession();
+  const { user } = useAuth();
+  const dashboardPath =
+    user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
 
   if (!session) {
     return (
@@ -28,7 +32,7 @@ export function DemoReviewPage() {
         title="Session Review"
         subtitle="No live session data found."
         actions={
-          <button onClick={() => navigate("/doctor/live-consultation")}>
+          <button onClick={() => navigate("/live-consultation")}>
             Start new consultation
           </button>
         }
@@ -62,7 +66,7 @@ export function DemoReviewPage() {
           <button onClick={() => navigate("/")}>Back to home</button>
           <button
             className="primary-button"
-            onClick={() => navigate("/doctor/dashboard")}
+            onClick={() => navigate(dashboardPath)}
           >
             Go to dashboard
           </button>

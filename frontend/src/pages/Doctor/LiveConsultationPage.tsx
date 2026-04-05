@@ -37,7 +37,7 @@ export function LiveConsultationPage() {
     };
     sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(demoSession));
 
-    navigate(`/doctor/live-consultation/review`);
+    navigate(`/live-consultation/review`);
   };
 
   return (

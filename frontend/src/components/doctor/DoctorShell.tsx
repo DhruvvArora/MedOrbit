@@ -14,7 +14,8 @@ function navigateTo(path: string) {
 }
 
 export function DoctorShell({ title, subtitle, actions, children }: Props) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const homePath = user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
 
   return (
     <div className="doctor-shell">
@@ -23,12 +24,12 @@ export function DoctorShell({ title, subtitle, actions, children }: Props) {
           <p className="eyebrow">
             <span
               className="doctor-shell__brand"
-              onClick={() => navigateTo("/doctor/dashboard")}
+              onClick={() => navigateTo(homePath)}
               style={{ cursor: "pointer", marginRight: "8px" }}
             >
               MedOrbit
             </span>
-            Doctor workspace
+            {user?.role === "doctor" ? "Doctor workspace" : "Consultation workspace"}
           </p>
           <h1>{title}</h1>
           {subtitle ? <p className="doctor-shell__subtitle">{subtitle}</p> : null}
