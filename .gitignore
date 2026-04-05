@@ -1,5 +1,7 @@
+# ------------------------------
 # Logs
-logs
+# ------------------------------
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,16 +9,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# ------------------------------
+# Frontend build / package files
+# ------------------------------
+node_modules/
+frontend/node_modules/
+dist/
+dist-ssr/
 *.local
 
+# ------------------------------
+# Python / backend environments
+# ------------------------------
+venv/
+.venv/
+backend/venv/
+backend/.venv/
 
-# Editor directories and files
+# ------------------------------
+# Python cache
+# ------------------------------
+__pycache__/
+*__pycache__/
+*.pyc
+*.pyo
+
+# ------------------------------
+# Local environment files
+# ------------------------------
+.env
+backend/.env
+
+# ------------------------------
+# Local databases
+# ------------------------------
+medorbit.db
+backend/medorbit.db
+
+# ------------------------------
+# Editor / OS files
+# ------------------------------
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
@@ -24,33 +59,14 @@ dist-ssr
 *.sln
 *.sw?
 
-
-# Frontend
-node_modules
-
-
-# Backend
-venv/
-.venv/
-__pycache__/
-*.pyc
-node_modules/
-
-
-# Excluded for Push
+# ------------------------------
+# Project-specific excluded files
+# ------------------------------
 resources/
 agents/psychologist_knowledge/data/
-backend/medorbit.db
 *.faiss
-*__pycache__/
-*.pyc
-.DS_Store
 
-
-# Database
-medorbit.db
-
-
-#Environment
-.env
-.env.example
+# ------------------------------
+# Backup files
+# ------------------------------
+*.bak
