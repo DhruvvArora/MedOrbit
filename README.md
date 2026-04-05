@@ -296,8 +296,8 @@ MedOrbit is not just a transcription tool. It converts raw medical conversations
 
 ## Contributors
 
-- **Pushkraj Kohok**
 - **Dhruv Arora**
+- **Pushkraj Kohok**
 
 ---
 
