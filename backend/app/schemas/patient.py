@@ -13,7 +13,7 @@ class PatientVisitDetailResponse(BaseModel):
     NOTE: The field ``patient_discharge_draft`` is named after the DB column.
     Patient-facing UIs MUST relabel it (e.g. "Approved Care Instructions").
     """
-    visit_id: int
+    visit_id: str
     title: str
     status: str
     started_at: Optional[datetime] = None
@@ -38,6 +38,6 @@ class PatientDashboardSummary(BaseModel):
 
 class PatientReminderItem(BaseModel):
     """Flat representation of a reminder bound to its parent visit."""
-    visit_id: int
+    visit_id: str
     visit_date: datetime
     task: str
