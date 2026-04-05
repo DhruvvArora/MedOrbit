@@ -15,14 +15,14 @@ class VisitReportUpdate(BaseModel):
 class VisitReportResponse(BaseModel):
     """Returned cleanly to the UI."""
     id: int
-    visit_id: int
+    visit_id: str
     status: str
     doctor_summary: Optional[str] = None
     patient_discharge_draft: Optional[str] = None
     simplified_explanation: Optional[str] = None
     clinical_review_flags: Optional[List[str]] = None
     reminder_candidates: Optional[List[str]] = None
-    approved_by_id: Optional[int] = None
+    approved_by_id: Optional[str] = None
     approved_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime

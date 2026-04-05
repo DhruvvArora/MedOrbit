@@ -8,6 +8,8 @@ Run with:
     uvicorn app.main:app --reload --port 8000
 """
 
+import app.models  # noqa: F401
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,6 +25,7 @@ from app.routes import reports as reports_routes
 from app.routes import patient as patient_routes
 from app.routes import patient_chat as patient_chat_routes
 from app.routes import reminders as reminder_doctor_routes
+from app.routes import doctor as doctor_routes
 from app.models.report import VisitReport
 from app.models.reminder import Reminder  # Database auto-discovery hook
 
@@ -64,6 +67,7 @@ app.include_router(reports_routes.report_router, prefix="/api")
 app.include_router(reminder_doctor_routes.router, prefix="/api")
 app.include_router(patient_routes.router, prefix="/api")
 app.include_router(patient_chat_routes.router, prefix="/api")
+app.include_router(doctor_routes.router, prefix="/api")
 
 
 # ── Health Check ─────────────────────────────────────────────

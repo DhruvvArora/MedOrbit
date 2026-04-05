@@ -10,8 +10,8 @@ class Reminder(Base):
     __tablename__ = "reminders"
 
     id = Column(Integer, primary_key=True, index=True)
-    visit_id = Column(Integer, ForeignKey("visits.id"), nullable=False)
-    patient_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    visit_id = Column(String(36), ForeignKey("visits.id"), nullable=False)
+    patient_id = Column(String(36), ForeignKey("users.id"), nullable=False)
     source_report_id = Column(Integer, ForeignKey("visit_reports.id"), nullable=False)
     
     title = Column(String, nullable=False)
