@@ -24,12 +24,12 @@ export function AgentInsightPanel({ behavioral, triage }: Props) {
   return (
     <div className="stack-grid">
       <PanelShell
-        title="Behavioral insight draft"
-        subtitle="AI support only · not final clinical judgment"
-        rightSlot={<StatusBadge tone="draft">draft AI</StatusBadge>}
+        title="Behavioral Insights"
+        subtitle="Draft observations for clinician review"
+        rightSlot={<StatusBadge tone="draft">Draft</StatusBadge>}
       >
         {!behavioral ? (
-          <EmptyState title="Behavioral analysis not run" description="Run the behavioral agent when enough transcript context is available." />
+          <EmptyState title="Behavioral Analysis not available" description="Run analysis once enough transcript context is available." />
         ) : (
           <div className="agent-content">
             <p><strong>Emotional tone:</strong> {behavioral.emotional_tone || "Not specified"}</p>
@@ -51,12 +51,12 @@ export function AgentInsightPanel({ behavioral, triage }: Props) {
       </PanelShell>
 
       <PanelShell
-        title="Clinical triage draft"
-        subtitle="Decision support only · verify against transcript and exam"
-        rightSlot={<StatusBadge tone="draft">draft AI</StatusBadge>}
+        title="Clinical Triage"
+        subtitle="Draft prioritization for clinician review"
+        rightSlot={<StatusBadge tone="draft">Draft</StatusBadge>}
       >
         {!triage ? (
-          <EmptyState title="Triage summary not run" description="Run triage after meaningful symptoms or concerns appear in the transcript." />
+          <EmptyState title="Triage summary not available" description="Run triage once relevant symptoms or concerns are documented." />
         ) : (
           <div className="agent-content">
             <p><strong>Acuity level:</strong> {triage.acuity_level || "Not specified"}</p>

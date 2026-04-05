@@ -53,6 +53,7 @@
   cursor: pointer;
   transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
   box-shadow: 0 6px 18px rgba(60, 90, 80, 0.04);
+  /* margin-bottom: 1rem; */
 }
 
 .doctor-app-shell button:hover:not(:disabled) {
@@ -92,11 +93,12 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
+  margin-top: 30px;
+  margin-bottom: 3rem;
 }
 
 .doctor-app-shell .doctor-shell__header h1 {
-  margin: 0.15rem 0 0.35rem;
+  margin: 0.5rem 0 1.5rem;
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
@@ -109,13 +111,14 @@
 .doctor-app-shell .empty-state p,
 .doctor-app-shell .mini-muted,
 .doctor-app-shell .panel-note {
+  font-size: 1.2rem;
   color: var(--doctor-muted);
 }
 
 .doctor-app-shell .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  font-size: 1rem;
   color: var(--doctor-teal-deep);
   margin: 0;
   font-weight: 700;
@@ -137,6 +140,7 @@
 
 .doctor-app-shell .visit-grid {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* min-height: 300px; */
 }
 
 .doctor-app-shell .workspace-grid {
@@ -197,10 +201,15 @@
 }
 
 .doctor-app-shell .visit-card {
-  padding: 1.25rem;
+  padding: 1.35rem 1.25rem 1.2rem;
+  min-height: 240px;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1rem;
+}
+
+.doctor-app-shell .visit-card button {
+  margin-top: auto;
 }
 
 .doctor-app-shell .visit-card__top,
@@ -235,7 +244,7 @@
 
 .doctor-app-shell .visit-card__meta {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   color: var(--doctor-muted);
   font-size: 0.92rem;
   flex-wrap: wrap;
@@ -251,7 +260,7 @@
 .doctor-app-shell .tab-row {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
 
@@ -396,7 +405,40 @@
 }
 
 .doctor-app-shell .workspace-actions {
-  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.doctor-app-shell .workspace-actions button {
+  min-height: 40px;
+  padding: 0.72rem 0.95rem;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.doctor-app-shell .transcript-panel-body {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-app-shell .transcript-panel-body .empty-state {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.doctor-app-shell .workspace-grid {
+  margin-bottom: 0.85rem;
+}
+
+.doctor-app-shell .report-preview>div {
+  margin-top: 0.7rem;
 }
 
 .doctor-app-shell .empty-state,
@@ -465,15 +507,11 @@
 }
 
 .doctor-app-shell .workspace-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
-.doctor-app-shell .workspace-actions__group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.doctor-app-shell .workspace-actions button {
+  font-size: 0.92rem;
 }
 
 .doctor-app-shell .flash-banner {
@@ -526,6 +564,7 @@
 }
 
 @media (max-width: 1024px) {
+
   .doctor-app-shell .workspace-grid,
   .doctor-app-shell .editor-grid,
   .doctor-app-shell .stats-grid {

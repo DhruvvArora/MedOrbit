@@ -28,21 +28,17 @@ export function WorkspaceActions({
 }) {
   return (
     <div className="workspace-actions">
-      <div className="workspace-actions__group">
-        <button onClick={handlers.onRefresh} disabled={busy}>Refresh workspace</button>
-        <button onClick={handlers.onRunBehavioral} disabled={busy}>Run behavioral analysis</button>
-        <button onClick={handlers.onRunTriage} disabled={busy}>Run triage analysis</button>
-        <button className="primary-button" onClick={handlers.onRunOrchestration} disabled={busy}>
-          {busy ? "Working..." : "Run orchestration"}
-        </button>
-      </div>
+      <button onClick={handlers.onRefresh} disabled={busy}>Refresh</button>
+      <button onClick={handlers.onRunBehavioral} disabled={busy}>Generate Behavioral Insights</button>
+      <button onClick={handlers.onRunTriage} disabled={busy}>Generate Triage Draft</button>
+      <button className="primary-button" onClick={handlers.onRunOrchestration} disabled={busy}>
+        {busy ? "Working..." : "Generate Report"}
+      </button>
 
-      <div className="workspace-actions__group">
-        <button onClick={handlers.onOpenReview} disabled={!canReview || busy}>Open review / edit</button>
-        <button onClick={handlers.onApprove} disabled={!canApprove || busy}>Approve report</button>
-        {canStart ? <button onClick={handlers.onStartVisit} disabled={busy}>Start visit</button> : null}
-        {canComplete ? <button onClick={handlers.onCompleteVisit} disabled={busy}>Complete visit</button> : null}
-      </div>
+      {canReview ? <button onClick={handlers.onOpenReview} disabled={busy}>Review Report</button> : null}
+      {canApprove ? <button onClick={handlers.onApprove} disabled={busy}>Approve report</button> : null}
+      {canStart ? <button onClick={handlers.onStartVisit} disabled={busy}>Start visit</button> : null}
+      {canComplete ? <button onClick={handlers.onCompleteVisit} disabled={busy}>Complete visit</button> : null}
     </div>
   );
 }

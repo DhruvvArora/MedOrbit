@@ -6,7 +6,7 @@ export function VisitHeader({ visit }: { visit: DoctorVisitListItem }) {
   return (
     <section className="visit-header-card">
       <div>
-        <p className="eyebrow">Visit workspace</p>
+        <p className="eyebrow">Current Visit</p>
         <h2>{visit.title || "Consultation visit"}</h2>
         <p>{visit.patient_name}</p>
       </div>
@@ -14,7 +14,7 @@ export function VisitHeader({ visit }: { visit: DoctorVisitListItem }) {
         <StatusBadge tone={visit.status === "active" ? "active" : "neutral"}>{visit.status}</StatusBadge>
         <StatusBadge tone="neutral">{visit.type === "virtual" ? "Virtual" : "In person"}</StatusBadge>
         <StatusBadge tone={visit.report_status === "approved" ? "approved" : visit.report_status === "draft" ? "draft" : "warning"}>
-          {visit.report_status === "none" ? "report pending" : `${visit.report_status} report`}
+          {visit.report_status === "none" ? "Draft Pending" : `${visit.report_status} Report`}
         </StatusBadge>
       </div>
     </section>

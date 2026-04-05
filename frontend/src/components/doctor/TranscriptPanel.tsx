@@ -19,25 +19,27 @@ export function TranscriptPanel({ chunks, stats }: { chunks: TranscriptChunk[]; 
   return (
     <PanelShell
       title="Transcript"
-      subtitle={`${stats.total_chunks} chunks · ${stats.total_characters} characters`}
-      rightSlot={<span className="mini-muted">Manual refresh MVP</span>}
+      subtitle={stats.total_chunks > 0 ? `${stats.total_chunks} transcript entries` : "No transcript captured yet"}
+      rightSlot={<span className="mini-muted">Manual Refresh</span>}
     >
-      {chunks.length === 0 ? (
-        <EmptyState title="No transcript yet" description="Start the visit or ingest transcript chunks to populate this panel." />
-      ) : (
-        <div className="transcript-list">
-          {chunks.map((chunk) => (
-            <div key={chunk.id} className={speakerClass(chunk.speaker_role)}>
-              <div className="transcript-item__meta">
-                <strong>{chunk.speaker_label || chunk.speaker_role}</strong>
-                <span>#{chunk.sequence_number}</span>
+      <div className="transcript-panel-body">
+        {chunks.length === 0 ? (
+          <EmptyState title="No transcript available" description="Start the visit or add transcript entries to populate this panel." />
+        ) : (
+          <div className="transcript-list">
+            {chunks.map((chunk) => (
+              <div key={chunk.id} className={speakerClass(chunk.speaker_role)}>
+                <div className="transcript-item__meta">
+                  <strong>{chunk.speaker_label || chunk.speaker_role}</strong>
+                  <span>#{chunk.sequence_number}</span>
+                </div>
+                <p>{chunk.text}</p>
               </div>
-              <p>{chunk.text}</p>
-            </div>
-          ))}
-          <div ref={endRef} />
-        </div>
-      )}
+            ))}
+            <div ref={endRef} />
+          </div>
+        )}
+      </div>
     </PanelShell>
   );
 }

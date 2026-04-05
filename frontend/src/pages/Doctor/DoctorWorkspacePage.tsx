@@ -55,9 +55,9 @@ export function DoctorWorkspacePage({ visitId }: { visitId: string }) {
 
   return (
     <DoctorShell
-      title="Consultation workspace"
-      subtitle="Raw transcript, AI drafts, and doctor approval are intentionally separated."
-      actions={<button onClick={() => navigate("/doctor/dashboard")}>Back to dashboard</button>}
+      title="Consultation Overview"
+      subtitle="Review the conversation, assess AI-generated drafts, and prepare the final report."
+      actions={<button onClick={() => navigate("/doctor/dashboard")}>Back to Dashboard</button>}
     >
       <VisitHeader visit={data.visit} />
       {flashMessage ? <div className={`flash-banner flash-banner--${flashTone}`}>{flashMessage}</div> : null}

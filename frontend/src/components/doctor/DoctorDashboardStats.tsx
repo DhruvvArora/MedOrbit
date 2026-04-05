@@ -1,10 +1,10 @@
 import React from "react";
 
 const statConfig = [
-  ["Total visits", "total"],
-  ["Active", "active"],
-  ["Draft reports", "draft_reports"],
-  ["Approved", "approved_reports"],
+  ["Total Visits", "total"],
+  ["In progress", "active"],
+  ["Drafts ready", "draft_reports"],
+  ["Approved Reports", "approved_reports"],
 ] as const;
 
 export function DoctorDashboardStats({ counts }: { counts: Record<string, number> }) {

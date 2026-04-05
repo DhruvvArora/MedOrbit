@@ -70,8 +70,8 @@ export function DoctorReviewPage({ visitId }: { visitId: string }) {
 
   return (
     <DoctorShell
-      title="Review, edit, and approve"
-      subtitle="This is the doctor-controlled layer before patient-safe release."
+      title="Review and Approve"
+      subtitle="Review the draft, make edits, and approve the final version."
       actions={
         <button onClick={() => navigate(`/doctor/visits/${visitId}/workspace`)} disabled={refreshing}>
           Back to workspace

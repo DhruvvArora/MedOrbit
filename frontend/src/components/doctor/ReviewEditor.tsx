@@ -43,7 +43,7 @@ export function ReviewEditor({ report, onSave, onApprove, onGenerateReminders, s
   return (
     <PanelShell
       title="Doctor review and approval"
-      subtitle="Editable doctor-authored layer. This is the only place approval can happen."
+      subtitle="Editable clinician report. This is where final approval happens."
       rightSlot={<StatusBadge tone={badgeTone}>{report.status.toLowerCase()}</StatusBadge>}
     >
       <div className="editor-grid">
@@ -56,7 +56,7 @@ export function ReviewEditor({ report, onSave, onApprove, onGenerateReminders, s
           <textarea value={patientDraft} onChange={(e) => setPatientDraft(e.target.value)} disabled={!canEdit || saving} rows={5} />
         </label>
         <label>
-          <span>Patient explanation</span>
+          <span>Patient explanation draft</span>
           <textarea value={patientExplanation} onChange={(e) => setPatientExplanation(e.target.value)} disabled={!canEdit || saving} rows={5} />
         </label>
         <label>

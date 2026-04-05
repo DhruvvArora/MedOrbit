@@ -17,7 +17,7 @@ export function DoctorDashboardPage() {
   return (
     <DoctorShell
       title={`Welcome, ${data.doctor_name}`}
-      subtitle="Transcript-first, doctor-in-the-loop consultation workflow"
+      subtitle="Review visits, track consult progress, and finalize patient-ready plans."
       actions={
         <button onClick={() => void refresh("soft")} disabled={refreshing}>
           {refreshing ? "Refreshing..." : "Refresh"}
