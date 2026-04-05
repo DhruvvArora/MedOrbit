@@ -66,7 +66,7 @@ export default function Hero() {
                         className="hero-orb-cta"
                         style={{ opacity: isTransitioning ? 0 : 1, transition: "opacity 0.25s ease" }}
                     >
-                        Begin live consultation capture
+                        Live Consultation Capture - "Click the Orb"
                     </p>
                 </div>
             </section>

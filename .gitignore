@@ -58,6 +58,7 @@ backend/medorbit.db
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
 
 # ------------------------------
 # Project-specific excluded files

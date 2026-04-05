@@ -520,15 +520,21 @@
 }
 
 .doctor-app-shell .flash-banner--success {
-  border-color: rgba(137, 220, 153, 0.35);
-  background: rgba(137, 220, 153, 0.12);
-  color: #dff9e5;
+  border-color: #b7dfc2;
+  background: #eaf7ef;
+  color: #17603a;
 }
 
 .doctor-app-shell .flash-banner--error {
-  border-color: rgba(248, 169, 169, 0.35);
-  background: rgba(248, 169, 169, 0.1);
-  color: #ffd6d6;
+  border-color: #efb7b2;
+  background: #fff0ef;
+  color: #9f2d24;
+}
+
+.doctor-app-shell .flash-banner--success *,
+.doctor-app-shell .flash-banner--error * {
+  color: inherit !important;
+  opacity: 1 !important;
 }
 
 .doctor-app-shell .loading-state {
@@ -738,6 +744,18 @@
 .consultation-shell .consultation-footer,
 .consultation-shell .live-footer-note {
   color: #8b918b;
+}
+
+.transcript-chunk--interim {
+  opacity: 0.78;
+}
+
+.transcript-chunk--interim .transcript-chunk-text {
+  font-style: italic;
+}
+
+.header-right .secondary-button {
+  border-radius: 14px;
 }
 
 

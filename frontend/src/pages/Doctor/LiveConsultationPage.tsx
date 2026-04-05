@@ -1,22 +1,29 @@
 import { useEffect } from "react";
 import { LiveTranscript } from "../../components/consultation/LiveTranscript";
 import { LiveInsights } from "../../components/consultation/LiveInsights";
-import { useDemoConsultation } from "../../hooks/useDemoConsultation";
+import { useLiveConsultation } from "../../hooks/useLiveConsultation";
 import { navigate } from "./router";
 
-/* Persist a minimal demo session so the review page can gracefully handle
-   "no backend record" — it checks this key before hitting the API. */
 export const DEMO_SESSION_KEY = "medorbit_demo_session";
 
 export function LiveConsultationPage() {
-  const { transcript, insights, status, stopConsultation, timer } = useDemoConsultation();
+  const {
+    transcript,
+    insights,
+    status,
+    stopConsultation,
+    timer,
+    interimText,
+    error,
+    isSupported,
+    startConsultation,
+  } = useLiveConsultation();
 
   const mins = Math.floor(timer / 60).toString().padStart(2, "0");
   const secs = (timer % 60).toString().padStart(2, "0");
 
-  // Lock dark background for this screen only
   useEffect(() => {
-    document.body.style.background = "#0b131e";
+    document.body.style.background = "";
     return () => {
       document.body.style.background = "";
     };
@@ -25,19 +32,17 @@ export function LiveConsultationPage() {
   const handleEndConsultation = () => {
     stopConsultation();
 
-    // Write a lightweight demo session into sessionStorage so the review
-    // page can detect it and show a demo-safe state instead of an API error.
     const demoVisitId = `demo-${Date.now().toString(36)}`;
     const demoSession = {
       visitId: demoVisitId,
-      chunks: transcript.map((c) => c.text),
-      insights: insights.map((i) => i.content),
+      chunks: transcript.map((chunk) => chunk.text),
+      insights: insights.map((insight) => insight.content),
       durationSecs: timer,
       createdAt: new Date().toISOString(),
     };
-    sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(demoSession));
 
-    navigate(`/live-consultation/review`);
+    sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(demoSession));
+    navigate("/live-consultation/review");
   };
 
   return (
@@ -48,25 +53,52 @@ export function LiveConsultationPage() {
           <div>
             <h2>Live consultation capture</h2>
             <p className="live-header-sub">
-              {status === "listening" ? "Transcript capturing in real time" : "Session complete"}
+              {error
+                ? error
+                : status === "listening"
+                  ? "Microphone is active and transcript is updating live"
+                  : status === "processing"
+                    ? "Finishing session..."
+                    : "Ready to capture"}
             </p>
           </div>
         </div>
 
         <div className="header-center">
-          <span className="timer">{mins}:{secs}</span>
+          <span className="timer">
+            {mins}:{secs}
+          </span>
         </div>
 
-        <div className="header-right">
-          <button className="btn-end-session" onClick={handleEndConsultation}>
+        <div className="header-right" style={{ display: "flex", gap: "0.75rem" }}>
+          {status !== "listening" ? (
+            <button className="secondary-button" onClick={() => void startConsultation()}>
+              {transcript.length > 0 ? "Restart recording" : "Start recording"}
+            </button>
+          ) : null}
+
+          <button
+            className="btn-end-session"
+            onClick={handleEndConsultation}
+            disabled={transcript.length === 0 && !error}
+          >
             End session &amp; review
           </button>
         </div>
       </header>
 
+      {!isSupported ? (
+        <div className="panel-shell" style={{ padding: "1.25rem", marginBottom: "1rem" }}>
+          <strong>Browser support required</strong>
+          <p style={{ marginTop: "0.5rem" }}>
+            Use Chrome or Edge for live microphone transcription in this MVP build.
+          </p>
+        </div>
+      ) : null}
+
       <main className="live-workspace">
         <div className="left-panel">
-          <LiveTranscript transcript={transcript} status={status} />
+          <LiveTranscript transcript={transcript} interimText={interimText} status={status} />
         </div>
         <div className="right-panel">
           <LiveInsights insights={insights} status={status} />
