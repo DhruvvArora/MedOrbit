@@ -1,4 +1,3 @@
-import React from "react";
 import { useAuth } from "../../context/AuthContext";
 
 interface Props {
@@ -13,27 +12,26 @@ function navigateTo(path: string) {
   window.dispatchEvent(new PopStateEvent("popstate"));
 }
 
-export function DoctorShell({ title, subtitle, actions, children }: Props) {
+export function PatientShell({ title, subtitle, actions, children }: Props) {
   const { logout } = useAuth();
 
   return (
-    <div className="doctor-shell">
-      <header className="doctor-shell__header">
+    <div className="patient-shell">
+      <header className="patient-shell__header">
         <div>
-          <p className="eyebrow">
+          <p className="patient-shell__eyebrow">
             <span
-              className="doctor-shell__brand"
-              onClick={() => navigateTo("/doctor/dashboard")}
-              style={{ cursor: "pointer", marginRight: "8px" }}
+              onClick={() => navigateTo("/patient/dashboard")}
+              style={{ cursor: "pointer", marginRight: "8px", fontWeight: 700, color: "var(--teal-deep)" }}
             >
               MedOrbit
             </span>
-            Doctor workspace
+            Patient Portal
           </p>
           <h1>{title}</h1>
-          {subtitle ? <p className="doctor-shell__subtitle">{subtitle}</p> : null}
+          {subtitle ? <p className="patient-shell__subtitle">{subtitle}</p> : null}
         </div>
-        <div className="doctor-shell__actions" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <div className="patient-shell__actions" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {actions}
           <button
             onClick={logout}

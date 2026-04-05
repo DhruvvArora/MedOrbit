@@ -16,20 +16,42 @@ Tokens expire after **24 hours** (configurable via `ACCESS_TOKEN_EXPIRE_MINUTES`
 ## Auth Flow
 
 ```
-┌──────────┐      POST /api/auth/login       ┌──────────┐
-│  Client   │ ─────────────────────────────▶ │  Server   │
-│ (browser) │     { email, password }         │ (FastAPI) │
-│           │ ◀───────────────────────────── │           │
-│           │   { access_token, user }        │           │
-└──────────┘                                  └──────────┘
-      │
-      │  GET /api/auth/me
-      │  Authorization: Bearer <token>
-      ▼
-┌──────────┐
-│  Server   │ → decode JWT → load user → return profile
-└──────────┘
+                     Home Screen
+                         │
+                    ┌────┴────┐
+                    │  Login  │  ← or "Create Account" → Register
+                    └────┬────┘
+                         │
+              POST /api/auth/login
+           { email, password }
+                         │
+                    ┌────┴────┐
+                    │  Server │ → validate → create JWT
+                    └────┬────┘
+                         │
+              { access_token, user }
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+         role=doctor          role=patient
+              │                     │
+    /doctor/dashboard     /patient/dashboard
 ```
+
+### Frontend Auth Flow
+
+1. User clicks **Login** on the home screen navbar
+2. Login page: enter email + password → `POST /api/auth/login`
+3. On success: JWT stored in `localStorage`, redirect by role
+4. On failure: error message shown inline
+5. Token validated on app load via `GET /api/auth/me`
+6. If token expired/invalid: auto-logout, redirect to `/login`
+
+### Registration Flow
+
+1. User clicks **Create one** on the login page
+2. Register page: enter name, email, password, select role
+3. `POST /api/auth/register` → auto-login → redirect by role
 
 ---
 
@@ -118,9 +140,30 @@ cd backend && python ../database/seed.py
 
 ---
 
-## Role-Based Access Control
+## Route Protection
 
-Routes are protected using FastAPI dependencies:
+### Frontend Routes
+
+| Path | Access | Behavior |
+|------|--------|----------|
+| `/` | Public | Landing page |
+| `/login` | Public | Redirects to dashboard if authenticated |
+| `/register` | Public | Redirects to dashboard if authenticated |
+| `/doctor/*` | Doctor only | Redirects to `/login` if unauthenticated |
+| `/patient/*` | Patient only | Redirects to `/login` if unauthenticated |
+
+### Redirect Rules
+
+| Scenario | Action |
+|----------|--------|
+| Unauthenticated → protected route | → `/login` |
+| Authenticated doctor → `/login` | → `/doctor/dashboard` |
+| Authenticated patient → `/login` | → `/patient/dashboard` |
+| Doctor → `/patient/*` | → `/doctor/dashboard` |
+| Patient → `/doctor/*` | → `/patient/dashboard` |
+| Logout | Clear auth → `/` |
+
+### Backend Dependencies
 
 ```python
 from app.core.dependencies import get_current_user, require_role
@@ -149,6 +192,26 @@ def my_reports(user = Depends(require_role("patient"))): ...
 
 ---
 
+## Dev/Demo Mode
+
+### `SKIP_AUTH` (Backend Only)
+
+Set `SKIP_AUTH=true` in `backend/.env` to bypass token validation.
+
+**Limitations:**
+- Only returns the demo **doctor** user (`doctor@medorbit.demo`)
+- Patient routes will return **403** in this mode
+- Frontend still shows login UI — bypass is backend-only
+
+**Recommended approach for testing:**
+Use seeded demo accounts with real login instead of `SKIP_AUTH`.
+
+### MVP Security Note
+
+JWT is stored in `localStorage` for development speed. In production, this would move to `httpOnly` cookies or a server-side session strategy.
+
+---
+
 ## Environment Variables
 
 | Variable                     | Default                          |
@@ -157,3 +220,4 @@ def my_reports(user = Depends(require_role("patient"))): ...
 | `SECRET_KEY`                 | (change in production)           |
 | `ACCESS_TOKEN_EXPIRE_MINUTES`| `1440` (24h)                     |
 | `CORS_ORIGINS`               | `http://localhost:3000,...`       |
+| `SKIP_AUTH`                  | `false`                          |

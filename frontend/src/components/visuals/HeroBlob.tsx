@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function HeroBlob() {
+export default function HeroBlob({ isTransitioning: _isTransitioning }: { isTransitioning?: boolean }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cellRef = useRef<HTMLDivElement>(null);
 
@@ -174,10 +174,9 @@ export default function HeroBlob() {
     <div
       ref={wrapRef}
       style={{
-        width: "400px",
-        height: "400px",
+        width: "100%",
+        height: "100%",
         overflow: "hidden",
-        flexShrink: 0,
       }}
     >
       <div ref={cellRef} style={{ width: "100%", height: "100%" }} />
