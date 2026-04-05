@@ -10,6 +10,8 @@ import { parseRoute } from "./pages/Doctor/router";
 import { DoctorDashboardPage } from "./pages/Doctor/DoctorDashboardPage";
 import { DoctorWorkspacePage } from "./pages/Doctor/DoctorWorkspacePage";
 import { DoctorReviewPage } from "./pages/Doctor/DoctorReviewPage";
+import { LiveConsultationPage } from "./pages/Doctor/LiveConsultationPage";
+import { DemoReviewPage } from "./pages/Doctor/DemoReviewPage";
 import { parsePatientRoute } from "./pages/Patient/router";
 import { PatientDashboardPage } from "./pages/Patient/PatientDashboardPage";
 import { PatientVisitDetailPage } from "./pages/Patient/PatientVisitDetailPage";
@@ -61,6 +63,12 @@ function App() {
           ) : null}
           {route.name === "doctor-review" ? (
             <DoctorReviewPage visitId={route.visitId} />
+          ) : null}
+          {route.name === "doctor-live-consultation" ? (
+            <LiveConsultationPage />
+          ) : null}
+          {route.name === "doctor-live-consultation-review" ? (
+            <DemoReviewPage />
           ) : null}
         </div>
       </ProtectedRoute>

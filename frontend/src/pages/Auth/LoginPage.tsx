@@ -5,7 +5,7 @@
  * redirects to the user's role-specific dashboard.
  */
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useAuth } from "../../context/AuthContext";
 import "../../styles/auth.css";
 
@@ -23,11 +23,16 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // If already authenticated, redirect
+  // If already authenticated, redirect via effect to avoid mid-render state collisions
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const target = user.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
+      navigateTo(target);
+    }
+  }, [isAuthenticated, user]);
+
   if (isAuthenticated && user) {
-    const target = user.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
-    navigateTo(target);
-    return null;
+    return null; // prevent flash of login form while redirecting
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -37,20 +42,13 @@ export function LoginPage() {
 
     try {
       await login(email, password);
-      // AuthContext now has the user — read role from it
-      // We need to get the user from the login response
-      // The login function sets the user in context, but we can't
-      // read it synchronously here. Instead, we'll use the stored user.
-      const stored = localStorage.getItem("medorbit_user");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        const target = parsed.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
-        navigateTo(target);
-      }
+      // We do not manually navigateTo here. 
+      // The login() call updates AuthContext, and the useEffect above
+      // will handle the navigation naturally once the state is fully propagated.
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {
-      setLoading(false);
+      if (!isAuthenticated) setLoading(false);
     }
   }
 

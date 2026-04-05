@@ -5,7 +5,7 @@
  * Auto-logs in after successful registration and redirects by role.
  */
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useAuth } from "../../context/AuthContext";
 import type { UserRole } from "../../types/auth";
 import "../../styles/auth.css";
@@ -27,11 +27,16 @@ export function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // If already authenticated, redirect
+  // If already authenticated, redirect via effect to avoid mid-render state collisions
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const target = user.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
+      navigateTo(target);
+    }
+  }, [isAuthenticated, user]);
+
   if (isAuthenticated && user) {
-    const target = user.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
-    navigateTo(target);
-    return null;
+    return null; // prevent flash of form while redirecting
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -53,17 +58,12 @@ export function RegisterPage() {
 
     try {
       await register(fullName, email, password, role);
-      // After register + auto-login, redirect by role
-      const stored = localStorage.getItem("medorbit_user");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        const target = parsed.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
-        navigateTo(target);
-      }
+      // Wait for React to naturally re-render with isAuthenticated=true
+      // Instead of forcing navigation immediately here.
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
     } finally {
-      setLoading(false);
+      if (!isAuthenticated) setLoading(false);
     }
   }
 

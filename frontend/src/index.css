@@ -162,21 +162,58 @@ svg {
 }
 
 
-/* ––––––––––––––– Wire Blob / Listening Orb ––––––––––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* ––––––––––––––– Wire Blob / Listening Orb ––––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.wireblob-wrap {
-  width: min(620px, 78vw);
-  aspect-ratio: 1 / 1;
-  /* margin: 0 auto 0; */
+/* Orb sits in its own centered wrapper below the hero text block */
+.hero-orb-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
   position: relative;
-  opacity: 1;
+  z-index: 2;
 }
 
-.wireblob-canvas {
+.hero-orb-click-target {
+  width: min(420px, 72vw);
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: filter 0.3s ease;
+  position: relative;
+}
+
+.hero-orb-click-target:hover {
+  filter: drop-shadow(0 0 28px rgba(105, 196, 184, 0.35));
+}
+
+.hero-orb-click-target:active {
+  filter: drop-shadow(0 0 40px rgba(105, 196, 184, 0.55)) brightness(1.1);
+}
+
+/* Instructional CTA text below the orb */
+.hero-orb-cta {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-align: center;
+  font-weight: 450;
+  animation: cta-breathe 3s ease-in-out infinite;
+}
+
+@keyframes cta-breathe {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.wireblob-wrap {
   width: 100%;
   height: 100%;
-  display: block;
-  filter: drop-shadow(0 0 12px rgba(155, 211, 194, 0.16));
+  position: relative;
+  overflow: hidden;
 }
 
 
@@ -252,5 +289,37 @@ svg {
     height: 220px;
     right: 4%;
     top: 280px;
+  }
+}
+/* ––––––––––––––– Transition Overlay (orb → workspace) –––––––––––––––––––––––––––––––––––––––––––––– */
+
+/*
+  Instead of scaling the WebGL canvas (which breaks the renderer),
+  a full-screen deep-navy overlay fades in over the landing page,
+  then the router swaps to the dark consultation screen underneath.
+*/
+.hero-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0b131e;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-transition-overlay--active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Responsive orb sizing */
+@media (max-width: 900px) {
+  .hero-orb-click-target {
+    width: min(320px, 80vw);
+  }
+
+  .hero-orb-cta {
+    font-size: 0.88rem;
   }
 }
