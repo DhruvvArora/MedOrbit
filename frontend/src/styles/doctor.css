@@ -440,3 +440,113 @@
     flex-direction: column;
   }
 }
+
+.doctor-app-shell .doctor-shell__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.doctor-app-shell button {
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+
+.doctor-app-shell button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(127, 215, 196, 0.34);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.doctor-app-shell textarea:focus,
+.doctor-app-shell button:focus {
+  outline: none;
+  border-color: rgba(127, 215, 196, 0.55);
+  box-shadow: 0 0 0 3px rgba(127, 215, 196, 0.12);
+}
+
+.doctor-app-shell .workspace-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.doctor-app-shell .workspace-actions__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.doctor-app-shell .flash-banner {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.doctor-app-shell .flash-banner--success {
+  border-color: rgba(137, 220, 153, 0.35);
+  background: rgba(137, 220, 153, 0.12);
+  color: #dff9e5;
+}
+
+.doctor-app-shell .flash-banner--error {
+  border-color: rgba(248, 169, 169, 0.35);
+  background: rgba(248, 169, 169, 0.1);
+  color: #ffd6d6;
+}
+
+.doctor-app-shell .loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 92px;
+}
+
+.doctor-app-shell .loading-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2px solid rgba(127, 215, 196, 0.22);
+  border-top-color: var(--primary);
+  animation: doctor-spin 0.8s linear infinite;
+}
+
+@keyframes doctor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.doctor-app-shell .panel-shell__header h3,
+.doctor-app-shell .visit-card__top h3,
+.doctor-app-shell .visit-header-card h2 {
+  line-height: 1.25;
+}
+
+.doctor-app-shell .visit-card__meta {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .doctor-app-shell .workspace-grid,
+  .doctor-app-shell .editor-grid,
+  .doctor-app-shell .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .doctor-app-shell {
+    padding: 20px;
+  }
+
+  .doctor-app-shell .doctor-shell__header,
+  .doctor-app-shell .visit-card__top,
+  .doctor-app-shell .panel-shell__header,
+  .doctor-app-shell .visit-header-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .doctor-app-shell .doctor-shell__header h1 {
+    font-size: 1.9rem;
+  }
+}

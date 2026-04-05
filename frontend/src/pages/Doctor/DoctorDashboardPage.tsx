@@ -9,16 +9,20 @@ import { ErrorState } from "../../components/shared/ErrorState";
 import { navigate } from "./router";
 
 export function DoctorDashboardPage() {
-  const { data, loading, error, refresh } = useAsyncResource(() => doctorApi.getDashboard(), []);
+  const { data, loading, refreshing, error, refresh } = useAsyncResource(() => doctorApi.getDashboard(), []);
 
   if (loading) return <LoadingState label="Loading doctor dashboard..." />;
-  if (error || !data) return <ErrorState message={error || "Dashboard unavailable"} onRetry={() => void refresh()} />;
+  if (error || !data) return <ErrorState message={error || "Dashboard unavailable"} onRetry={() => void refresh("initial")} />;
 
   return (
     <DoctorShell
       title={`Welcome, ${data.doctor_name}`}
       subtitle="Transcript-first, doctor-in-the-loop consultation workflow"
-      actions={<button onClick={() => void refresh()}>Refresh</button>}
+      actions={
+        <button onClick={() => void refresh("soft")} disabled={refreshing}>
+          {refreshing ? "Refreshing..." : "Refresh"}
+        </button>
+      }
     >
       <DoctorDashboardStats counts={data.counts} />
       <DoctorVisitList visits={data.visits} onOpen={(visitId) => navigate(`/doctor/visits/${visitId}/workspace`)} />
