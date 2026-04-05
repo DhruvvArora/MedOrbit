@@ -21,30 +21,37 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.database import get_db
 from app.core.security import decode_access_token
 from app.models.user import User
 from app.models.visit import Visit
 
-# ── Bearer Token Extraction ─────────────────────────────────
+# Allow missing bearer token when SKIP_AUTH is on
+security_scheme = HTTPBearer(auto_error=False)
 
-security_scheme = HTTPBearer(auto_error=True)
-
-
-# ── get_current_user ─────────────────────────────────────────
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security_scheme),
+    credentials: HTTPAuthorizationCredentials | None = Depends(security_scheme),
     db: Session = Depends(get_db),
 ) -> User:
-    """
-    Decode the JWT from the Authorization header, load the user,
-    and verify they are active.
+    # Temporary dev bypass
+    if settings.SKIP_AUTH:
+        demo_user = db.query(User).filter(User.email == "doctor@medorbit.demo").first()
+        if demo_user is None:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="SKIP_AUTH is enabled but demo doctor user was not found.",
+            )
+        return demo_user
 
-    Raises:
-        401 if token is missing, invalid, or expired.
-        403 if the user account is deactivated.
-    """
+    if credentials is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     token = credentials.credentials
     payload = decode_access_token(token)
 
@@ -81,22 +88,7 @@ def get_current_user(
     return user
 
 
-# ── require_role ─────────────────────────────────────────────
-
 def require_role(*allowed_roles: str):
-    """
-    Factory that returns a dependency which enforces role-based access.
-
-    Usage:
-        @router.post("/visits")
-        def create_visit(user: User = Depends(require_role("doctor"))):
-            ...
-
-        @router.get("/visit/{id}")
-        def view_visit(user: User = Depends(require_role("doctor", "patient"))):
-            ...
-    """
-
     def role_checker(user: User = Depends(get_current_user)) -> User:
         if user.role not in allowed_roles:
             raise HTTPException(
@@ -107,8 +99,6 @@ def require_role(*allowed_roles: str):
 
     return role_checker
 
-
-# ── Visit specific dependencies ──────────────────────────────
 
 def get_visit_or_404(visit_id: str, db: Session = Depends(get_db)) -> Visit:
     visit = db.query(Visit).filter(Visit.id == visit_id).first()
@@ -139,3 +129,4 @@ def require_assigned_doctor(
             detail="You are not the assigned doctor for this visit.",
         )
     return visit
+    

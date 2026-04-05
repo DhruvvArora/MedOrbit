@@ -1,25 +1,32 @@
 .doctor-app-shell {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #e8eef7;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  --bg: #09111f;
-  --bg-elevated: #101b2f;
-  --bg-soft: #13233b;
-  --border: rgba(159, 184, 216, 0.18);
-  --text: #e8eef7;
-  --muted: #9fb8d8;
-  --primary: #7fd7c4;
-  --draft: #f2c879;
-  --approved: #89dc99;
-  --warning: #f8a9a9;
+  --doctor-bg: linear-gradient(180deg, #f7f3ec 0%, #f3efe8 100%);
+  --doctor-surface: rgba(255, 255, 255, 0.72);
+  --doctor-surface-strong: rgba(255, 255, 255, 0.88);
+  --doctor-surface-soft: rgba(255, 255, 255, 0.55);
+  --doctor-border: rgba(31, 36, 33, 0.08);
+  --doctor-text: #1f2421;
+  --doctor-muted: #5f6662;
+  --doctor-teal: #69c4b8;
+  --doctor-teal-deep: #4ea89c;
+  --doctor-blue: #8ebfe8;
+  --doctor-blue-deep: #6ea5d3;
+  --doctor-warning: #d9903d;
+  --doctor-danger: #c96d6d;
+  --doctor-success: #4da37d;
+  --doctor-shadow: 0 16px 40px rgba(60, 90, 80, 0.08);
+  --doctor-radius-xl: 28px;
+  --doctor-radius-lg: 22px;
+  --doctor-radius-md: 16px;
+  --doctor-pill: 999px;
+
   min-height: 100vh;
-  background: radial-gradient(circle at top, rgba(127, 215, 196, 0.1), transparent 30%), var(--bg);
-  padding: 32px;
+  background:
+    radial-gradient(circle at top left, rgba(105, 196, 184, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(142, 191, 232, 0.18), transparent 24%),
+    linear-gradient(180deg, #f7f3ec 0%, #f3efe8 100%);
+  padding: 32px 24px 48px;
+  color: var(--doctor-text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .doctor-app-shell,
@@ -29,6 +36,7 @@
 
 .doctor-app-shell a {
   color: inherit;
+  text-decoration: none;
 }
 
 .doctor-app-shell button,
@@ -37,30 +45,45 @@
 }
 
 .doctor-app-shell button {
-  border: 1px solid var(--border);
-  background: var(--bg-soft);
-  color: var(--text);
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
+  border: 1px solid var(--doctor-border);
+  background: var(--doctor-surface-soft);
+  color: var(--doctor-text);
+  padding: 0.78rem 1rem;
+  border-radius: 14px;
   cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  box-shadow: 0 6px 18px rgba(60, 90, 80, 0.04);
+}
+
+.doctor-app-shell button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(78, 168, 156, 0.22);
+  box-shadow: 0 10px 24px rgba(60, 90, 80, 0.08);
 }
 
 .doctor-app-shell button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+  transform: none;
 }
 
 .doctor-app-shell textarea {
   width: 100%;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(9, 17, 31, 0.72);
-  color: var(--text);
-  padding: 0.85rem 1rem;
+  border-radius: 18px;
+  border: 1px solid var(--doctor-border);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--doctor-text);
+  padding: 0.95rem 1rem;
+  outline: none;
+}
+
+.doctor-app-shell textarea:focus {
+  border-color: rgba(78, 168, 156, 0.38);
+  box-shadow: 0 0 0 4px rgba(105, 196, 184, 0.12);
 }
 
 .doctor-app-shell .doctor-shell {
-  max-width: 1380px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -73,8 +96,11 @@
 }
 
 .doctor-app-shell .doctor-shell__header h1 {
-  margin: 0.15rem 0;
-  font-size: 2.3rem;
+  margin: 0.15rem 0 0.35rem;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .doctor-shell__subtitle,
@@ -83,15 +109,16 @@
 .doctor-app-shell .empty-state p,
 .doctor-app-shell .mini-muted,
 .doctor-app-shell .panel-note {
-  color: var(--muted);
+  color: var(--doctor-muted);
 }
 
 .doctor-app-shell .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.76rem;
-  color: var(--primary);
+  color: var(--doctor-teal-deep);
   margin: 0;
+  font-weight: 700;
 }
 
 .doctor-app-shell .stats-grid,
@@ -109,11 +136,11 @@
 }
 
 .doctor-app-shell .visit-grid {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .doctor-app-shell .workspace-grid {
-  grid-template-columns: 1.35fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   align-items: start;
 }
 
@@ -128,7 +155,9 @@
 .doctor-app-shell .editor-grid label {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  font-size: 0.95rem;
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .editor-grid label:last-child {
@@ -143,28 +172,32 @@
 .doctor-app-shell .error-state,
 .doctor-app-shell .loading-state,
 .doctor-app-shell .flash-banner {
-  background: rgba(16, 27, 47, 0.92);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  background: var(--doctor-surface);
+  border: 1px solid var(--doctor-border);
+  border-radius: var(--doctor-radius-xl);
+  box-shadow: var(--doctor-shadow);
+  backdrop-filter: blur(14px);
 }
 
 .doctor-app-shell .stat-card {
-  padding: 1rem 1.2rem;
+  padding: 1.05rem 1.2rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72));
 }
 
 .doctor-app-shell .stat-card span {
   display: block;
-  color: var(--muted);
+  color: var(--doctor-muted);
   margin-bottom: 0.35rem;
+  font-size: 0.95rem;
 }
 
 .doctor-app-shell .stat-card strong {
-  font-size: 1.75rem;
+  font-size: 1.9rem;
+  letter-spacing: -0.04em;
 }
 
 .doctor-app-shell .visit-card {
-  padding: 1.2rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
@@ -185,6 +218,11 @@
 .doctor-app-shell .panel-shell__header h3,
 .doctor-app-shell .visit-header-card h2 {
   margin: 0 0 0.2rem;
+  color: var(--doctor-text);
+}
+
+.doctor-app-shell .visit-card__top h3 {
+  font-size: 1.08rem;
 }
 
 .doctor-app-shell .visit-card__badges,
@@ -198,15 +236,16 @@
 .doctor-app-shell .visit-card__meta {
   display: flex;
   gap: 1rem;
-  color: var(--muted);
+  color: var(--doctor-muted);
   font-size: 0.92rem;
+  flex-wrap: wrap;
 }
 
 .doctor-app-shell .primary-button {
-  background: var(--primary);
-  color: #06211c;
+  background: linear-gradient(135deg, var(--doctor-teal) 0%, #7fd3c8 100%);
+  color: #14332e;
   border-color: transparent;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .doctor-app-shell .tab-row {
@@ -217,8 +256,9 @@
 }
 
 .doctor-app-shell .tab-button--active {
-  background: rgba(127, 215, 196, 0.16);
-  border-color: rgba(127, 215, 196, 0.4);
+  background: rgba(105, 196, 184, 0.14);
+  border-color: rgba(78, 168, 156, 0.24);
+  color: var(--doctor-teal-deep);
 }
 
 .doctor-app-shell .panel-shell {
@@ -240,88 +280,103 @@
   padding: 1.15rem 1.2rem;
   margin-bottom: 1rem;
   align-items: flex-start;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.72));
 }
 
 .doctor-app-shell .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
+  padding: 0.38rem 0.78rem;
+  border-radius: var(--doctor-pill);
   font-size: 0.8rem;
   text-transform: capitalize;
   border: 1px solid transparent;
+  font-weight: 600;
 }
 
 .doctor-app-shell .status-badge--neutral {
-  background: rgba(159, 184, 216, 0.14);
-  color: var(--text);
+  background: rgba(95, 102, 98, 0.08);
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .status-badge--draft {
-  background: rgba(242, 200, 121, 0.16);
-  color: var(--draft);
+  background: rgba(217, 144, 61, 0.12);
+  color: var(--doctor-warning);
 }
 
 .doctor-app-shell .status-badge--approved {
-  background: rgba(137, 220, 153, 0.16);
-  color: var(--approved);
+  background: rgba(77, 163, 125, 0.12);
+  color: var(--doctor-success);
 }
 
 .doctor-app-shell .status-badge--warning {
-  background: rgba(248, 169, 169, 0.14);
-  color: var(--warning);
+  background: rgba(201, 109, 109, 0.12);
+  color: var(--doctor-danger);
 }
 
 .doctor-app-shell .status-badge--active {
-  background: rgba(127, 215, 196, 0.16);
-  color: var(--primary);
+  background: rgba(105, 196, 184, 0.14);
+  color: var(--doctor-teal-deep);
 }
 
 .doctor-app-shell .transcript-list {
-  max-height: 520px;
+  max-height: 560px;
   overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  padding-right: 0.4rem;
+  padding-right: 0.35rem;
+}
+
+.doctor-app-shell .transcript-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.doctor-app-shell .transcript-list::-webkit-scrollbar-thumb {
+  background: rgba(31, 36, 33, 0.12);
+  border-radius: 999px;
 }
 
 .doctor-app-shell .transcript-item {
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--doctor-border);
+  border-radius: 18px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .doctor-app-shell .transcript-item p {
   margin: 0.45rem 0 0;
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .transcript-item--doctor {
-  background: rgba(127, 215, 196, 0.08);
+  background: rgba(105, 196, 184, 0.12);
 }
 
 .doctor-app-shell .transcript-item--patient {
-  background: rgba(128, 159, 255, 0.08);
+  background: rgba(142, 191, 232, 0.14);
 }
 
 .doctor-app-shell .transcript-item--system {
-  background: rgba(242, 200, 121, 0.08);
+  background: rgba(217, 144, 61, 0.08);
 }
 
 .doctor-app-shell .transcript-item__meta {
   font-size: 0.85rem;
-  color: var(--muted);
+  color: var(--doctor-muted);
 }
 
 .doctor-app-shell .bullet-list {
   margin: 0.4rem 0 0;
   padding-left: 1.1rem;
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .agent-content h4,
 .doctor-app-shell .report-preview h4 {
   margin: 0 0 0.3rem;
+  color: var(--doctor-text);
 }
 
 .doctor-app-shell .agent-content>div,
@@ -330,7 +385,7 @@
 }
 
 .doctor-app-shell .panel-note {
-  border-left: 3px solid rgba(242, 200, 121, 0.7);
+  border-left: 3px solid rgba(217, 144, 61, 0.72);
   padding-left: 0.8rem;
 }
 
@@ -351,6 +406,12 @@
   padding: 1rem 1.1rem;
 }
 
+.doctor-app-shell .empty-state strong,
+.doctor-app-shell .error-state strong,
+.doctor-app-shell .loading-state strong {
+  color: var(--doctor-text);
+}
+
 .doctor-app-shell .error-state strong {
   display: block;
   margin-bottom: 0.35rem;
@@ -358,12 +419,14 @@
 
 .doctor-app-shell .flash-banner {
   margin-bottom: 1rem;
-  color: var(--primary);
+  color: var(--doctor-teal-deep);
+  background: rgba(105, 196, 184, 0.12);
+  border-color: rgba(105, 196, 184, 0.18);
 }
 
 @media (max-width: 980px) {
   .doctor-app-shell {
-    padding: 18px;
+    padding: 18px 16px 32px;
   }
 
   .doctor-app-shell .stats-grid,

@@ -12,7 +12,7 @@ class VisitReport(Base):
     __tablename__ = "visit_reports"
 
     id = Column(Integer, primary_key=True, index=True)
-    visit_id = Column(Integer, ForeignKey("visits.id"), unique=True, nullable=False)
+    visit_id = Column(String(36), ForeignKey("visits.id"), nullable=False, unique=True)
     status = Column(String, default="DRAFT", nullable=False) # 'DRAFT' or 'APPROVED'
     
     doctor_summary = Column(Text, nullable=True)
@@ -26,7 +26,7 @@ class VisitReport(Base):
     clinical_review_flags = Column(JSON, nullable=True)
     reminder_candidates = Column(JSON, nullable=True)
 
-    approved_by_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    approved_by_id = Column(String(36), ForeignKey("users.id"), nullable=True)
     approved_at = Column(DateTime, nullable=True)
 
     created_at = Column(DateTime, default=datetime.utcnow)
