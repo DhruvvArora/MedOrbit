@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,13 +24,17 @@ dist-ssr
 *.sln
 *.sw?
 
+
 # Frontend
 node_modules
 
 
 # Backend
-.venv/
 venv/
+.venv/
+__pycache__/
+*.pyc
+node_modules/
 
 
 # Excluded for Push
@@ -39,3 +44,13 @@ backend/medorbit.db
 *.faiss
 *__pycache__/
 *.pyc
+.DS_Store
+
+
+# Database
+medorbit.db
+
+
+#Environment
+.env
+.env.example

@@ -1,0 +1,379 @@
+.doctor-app-shell {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #e8eef7;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --bg: #09111f;
+  --bg-elevated: #101b2f;
+  --bg-soft: #13233b;
+  --border: rgba(159, 184, 216, 0.18);
+  --text: #e8eef7;
+  --muted: #9fb8d8;
+  --primary: #7fd7c4;
+  --draft: #f2c879;
+  --approved: #89dc99;
+  --warning: #f8a9a9;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(127, 215, 196, 0.1), transparent 30%), var(--bg);
+  padding: 32px;
+}
+
+.doctor-app-shell,
+.doctor-app-shell * {
+  box-sizing: border-box;
+}
+
+.doctor-app-shell a {
+  color: inherit;
+}
+
+.doctor-app-shell button,
+.doctor-app-shell textarea {
+  font: inherit;
+}
+
+.doctor-app-shell button {
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.doctor-app-shell button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.doctor-app-shell textarea {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(9, 17, 31, 0.72);
+  color: var(--text);
+  padding: 0.85rem 1rem;
+}
+
+.doctor-app-shell .doctor-shell {
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.doctor-app-shell .doctor-shell__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.doctor-app-shell .doctor-shell__header h1 {
+  margin: 0.15rem 0;
+  font-size: 2.3rem;
+}
+
+.doctor-app-shell .doctor-shell__subtitle,
+.doctor-app-shell .panel-shell__header p,
+.doctor-app-shell .visit-card p,
+.doctor-app-shell .empty-state p,
+.doctor-app-shell .mini-muted,
+.doctor-app-shell .panel-note {
+  color: var(--muted);
+}
+
+.doctor-app-shell .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.doctor-app-shell .stats-grid,
+.doctor-app-shell .visit-grid,
+.doctor-app-shell .workspace-grid,
+.doctor-app-shell .stack-grid,
+.doctor-app-shell .editor-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.doctor-app-shell .stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.doctor-app-shell .visit-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.doctor-app-shell .workspace-grid {
+  grid-template-columns: 1.35fr 1fr;
+  align-items: start;
+}
+
+.doctor-app-shell .stack-grid {
+  grid-template-columns: 1fr;
+}
+
+.doctor-app-shell .editor-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.doctor-app-shell .editor-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.doctor-app-shell .editor-grid label:last-child {
+  grid-column: 1 / -1;
+}
+
+.doctor-app-shell .stat-card,
+.doctor-app-shell .visit-card,
+.doctor-app-shell .panel-shell,
+.doctor-app-shell .visit-header-card,
+.doctor-app-shell .empty-state,
+.doctor-app-shell .error-state,
+.doctor-app-shell .loading-state,
+.doctor-app-shell .flash-banner {
+  background: rgba(16, 27, 47, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.doctor-app-shell .stat-card {
+  padding: 1rem 1.2rem;
+}
+
+.doctor-app-shell .stat-card span {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.doctor-app-shell .stat-card strong {
+  font-size: 1.75rem;
+}
+
+.doctor-app-shell .visit-card {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.doctor-app-shell .visit-card__top,
+.doctor-app-shell .panel-shell__header,
+.doctor-app-shell .visit-header-card,
+.doctor-app-shell .transcript-item__meta,
+.doctor-app-shell .panel-actions,
+.doctor-app-shell .workspace-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.doctor-app-shell .visit-card__top h3,
+.doctor-app-shell .panel-shell__header h3,
+.doctor-app-shell .visit-header-card h2 {
+  margin: 0 0 0.2rem;
+}
+
+.doctor-app-shell .visit-card__badges,
+.doctor-app-shell .visit-header-card__meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.doctor-app-shell .visit-card__meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.doctor-app-shell .primary-button {
+  background: var(--primary);
+  color: #06211c;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.doctor-app-shell .tab-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.doctor-app-shell .tab-button--active {
+  background: rgba(127, 215, 196, 0.16);
+  border-color: rgba(127, 215, 196, 0.4);
+}
+
+.doctor-app-shell .panel-shell {
+  padding: 1rem 1rem 1.1rem;
+}
+
+.doctor-app-shell .panel-shell__header {
+  align-items: flex-start;
+  margin-bottom: 0.9rem;
+}
+
+.doctor-app-shell .panel-shell__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.doctor-app-shell .visit-header-card {
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.doctor-app-shell .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+}
+
+.doctor-app-shell .status-badge--neutral {
+  background: rgba(159, 184, 216, 0.14);
+  color: var(--text);
+}
+
+.doctor-app-shell .status-badge--draft {
+  background: rgba(242, 200, 121, 0.16);
+  color: var(--draft);
+}
+
+.doctor-app-shell .status-badge--approved {
+  background: rgba(137, 220, 153, 0.16);
+  color: var(--approved);
+}
+
+.doctor-app-shell .status-badge--warning {
+  background: rgba(248, 169, 169, 0.14);
+  color: var(--warning);
+}
+
+.doctor-app-shell .status-badge--active {
+  background: rgba(127, 215, 196, 0.16);
+  color: var(--primary);
+}
+
+.doctor-app-shell .transcript-list {
+  max-height: 520px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-right: 0.4rem;
+}
+
+.doctor-app-shell .transcript-item {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.85rem 0.95rem;
+}
+
+.doctor-app-shell .transcript-item p {
+  margin: 0.45rem 0 0;
+}
+
+.doctor-app-shell .transcript-item--doctor {
+  background: rgba(127, 215, 196, 0.08);
+}
+
+.doctor-app-shell .transcript-item--patient {
+  background: rgba(128, 159, 255, 0.08);
+}
+
+.doctor-app-shell .transcript-item--system {
+  background: rgba(242, 200, 121, 0.08);
+}
+
+.doctor-app-shell .transcript-item__meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.doctor-app-shell .bullet-list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.doctor-app-shell .agent-content h4,
+.doctor-app-shell .report-preview h4 {
+  margin: 0 0 0.3rem;
+}
+
+.doctor-app-shell .agent-content>div,
+.doctor-app-shell .report-preview>div {
+  margin-top: 0.8rem;
+}
+
+.doctor-app-shell .panel-note {
+  border-left: 3px solid rgba(242, 200, 121, 0.7);
+  padding-left: 0.8rem;
+}
+
+.doctor-app-shell .panel-actions,
+.doctor-app-shell .workspace-actions {
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.doctor-app-shell .workspace-actions {
+  margin-bottom: 1rem;
+}
+
+.doctor-app-shell .empty-state,
+.doctor-app-shell .error-state,
+.doctor-app-shell .loading-state,
+.doctor-app-shell .flash-banner {
+  padding: 1rem 1.1rem;
+}
+
+.doctor-app-shell .error-state strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.doctor-app-shell .flash-banner {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+@media (max-width: 980px) {
+  .doctor-app-shell {
+    padding: 18px;
+  }
+
+  .doctor-app-shell .stats-grid,
+  .doctor-app-shell .workspace-grid,
+  .doctor-app-shell .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-app-shell .doctor-shell__header,
+  .doctor-app-shell .visit-header-card {
+    flex-direction: column;
+  }
+}

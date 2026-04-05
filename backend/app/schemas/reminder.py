@@ -2,10 +2,11 @@ from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+
 class ReminderResponse(BaseModel):
     id: int
-    visit_id: int
-    patient_id: int
+    visit_id: str
+    patient_id: str
     title: str
     status: str
     due_at: datetime
@@ -15,6 +16,7 @@ class ReminderResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class ReminderStatusUpdate(BaseModel):
     status: str = Field(..., description="Must be one of: PENDING, COMPLETED, SKIPPED")
