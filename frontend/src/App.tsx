@@ -4,10 +4,14 @@ import Hero from "./components/sections/Hero";
 import "./index.css";
 import "./styles/theme.css";
 import "./styles/doctor.css";
+import "./styles/patient.css";
 import { parseRoute } from "./pages/Doctor/router";
 import { DoctorDashboardPage } from "./pages/Doctor/DoctorDashboardPage";
 import { DoctorWorkspacePage } from "./pages/Doctor/DoctorWorkspacePage";
 import { DoctorReviewPage } from "./pages/Doctor/DoctorReviewPage";
+import { parsePatientRoute } from "./pages/Patient/router";
+import { PatientDashboardPage } from "./pages/Patient/PatientDashboardPage";
+import { PatientVisitDetailPage } from "./pages/Patient/PatientVisitDetailPage";
 
 function App() {
   const [path, setPath] = useState(window.location.pathname);
@@ -19,7 +23,9 @@ function App() {
   }, []);
 
   const isDoctorPath = path.startsWith("/doctor");
+  const isPatientPath = path.startsWith("/patient");
 
+  /* ── Doctor Routes ───────────────────────────────────────── */
   if (isDoctorPath) {
     const route = parseRoute(path);
 
@@ -36,6 +42,21 @@ function App() {
     );
   }
 
+  /* ── Patient Routes ──────────────────────────────────────── */
+  if (isPatientPath) {
+    const route = parsePatientRoute(path);
+
+    return (
+      <div className="app-shell patient-app-shell">
+        {route.name === "patient-dashboard" ? <PatientDashboardPage /> : null}
+        {route.name === "patient-visit-detail" ? (
+          <PatientVisitDetailPage visitId={route.visitId} />
+        ) : null}
+      </div>
+    );
+  }
+
+  /* ── Landing Page ────────────────────────────────────────── */
   return (
     <div className="app-shell">
       <Navbar />
