@@ -204,7 +204,7 @@ MedOrbit/
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/DhruvvArora/MedOrbit
 cd MedOrbit
 ```
 
