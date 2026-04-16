@@ -21,8 +21,13 @@ export function PatientShell({ title, subtitle, actions, children }: Props) {
         <div>
           <p className="patient-shell__eyebrow">
             <span
-              onClick={() => navigateTo("/patient/dashboard")}
-              style={{ cursor: "pointer", marginRight: "8px", fontWeight: 700, color: "var(--teal-deep)" }}
+              onClick={() => navigateTo("/")}
+              style={{
+                cursor: "pointer",
+                marginRight: "8px",
+                fontWeight: 700,
+                color: "var(--teal-deep)",
+              }}
             >
               MedOrbit
             </span>
@@ -31,7 +36,15 @@ export function PatientShell({ title, subtitle, actions, children }: Props) {
           <h1>{title}</h1>
           {subtitle ? <p className="patient-shell__subtitle">{subtitle}</p> : null}
         </div>
-        <div className="patient-shell__actions" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+
+        <div
+          className="patient-shell__actions"
+          style={{ display: "flex", gap: "8px", alignItems: "center" }}
+        >
+          <button onClick={() => navigateTo("/")}>Home</button>
+          <button className="primary-button" onClick={() => navigateTo("/patient/dashboard")}>
+            Dashboard
+          </button>
           {actions}
           <button
             onClick={logout}

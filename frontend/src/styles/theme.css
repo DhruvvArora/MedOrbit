@@ -18,4 +18,85 @@
     --radius-xl: 28px;
 
     --container: 1200px;
+
+
+    --success-bg: #eaf7ef;
+    --success-border: #b7dfc2;
+    --success-text: #17603a;
+
+    --warning-bg: #fff6e8;
+    --warning-border: #f1d29b;
+    --warning-text: #9a5a00;
+
+    --error-bg: #fff0ef;
+    --error-border: #efb7b2;
+    --error-text: #9f2d24;
+
+    --info-bg: #eef7fb;
+    --info-border: #b8d7e6;
+    --info-text: #245b73;
+
+
+    .status-banner,
+    .alert-banner,
+    .feedback-banner,
+    .toast-banner,
+    .notice-banner,
+    .confirmation-banner {
+        border-radius: 18px;
+        padding: 14px 18px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        line-height: 1.5;
+        border: 1px solid transparent;
+        box-shadow: 0 10px 28px rgba(31, 36, 33, 0.05);
+    }
+
+    .status-banner--success,
+    .alert-success,
+    .feedback-success,
+    .toast-success,
+    .confirmation-success {
+        background: var(--success-bg);
+        border-color: var(--success-border);
+        color: var(--success-text);
+    }
+
+    .status-banner--warning,
+    .alert-warning,
+    .feedback-warning {
+        background: var(--warning-bg);
+        border-color: var(--warning-border);
+        color: var(--warning-text);
+    }
+
+    .status-banner--error,
+    .alert-error,
+    .feedback-error {
+        background: var(--error-bg);
+        border-color: var(--error-border);
+        color: var(--error-text);
+    }
+
+    .status-banner--info,
+    .alert-info,
+    .feedback-info {
+        background: var(--info-bg);
+        border-color: var(--info-border);
+        color: var(--info-text);
+    }
+
+    .status-banner *,
+.alert-banner *,
+.feedback-banner *,
+.toast-banner *,
+.notice-banner *,
+.confirmation-banner *,
+.alert-success *,
+.feedback-success *,
+.confirmation-success * {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
 }

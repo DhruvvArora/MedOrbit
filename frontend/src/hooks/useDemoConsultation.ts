@@ -9,23 +9,23 @@ const generateId = () => Math.random().toString(36).substr(2, 9);
 const SIMULATED_CHUNKS: { text: string; delayMs: number }[] = [
   {
     text: "Patient presents reporting a persistent cough that has been ongoing for approximately three weeks. States it is worse at night and is disrupting sleep.",
-    delayMs: 2000,
+    delayMs: 700,
   },
   {
     text: "Also experiencing mild shortness of breath when climbing stairs. No reported fever or chills. Reports feeling generally fatigued.",
-    delayMs: 5000,
+    delayMs: 1400,
   },
   {
     text: "No recent change in medication. Patient mentions stress at work as a possible contributing factor. No family history of respiratory illness flagged.",
-    delayMs: 5500,
+    delayMs: 1600,
   },
   {
     text: "Discussion around potential triggers — dust exposure at home, a recent cold approximately four weeks ago. No smoker. No known allergies.",
-    delayMs: 6000,
+    delayMs: 1700,
   },
   {
     text: "Clinical notes: Cough duration three weeks, nocturnal pattern. Dyspnoea on exertion. Patient otherwise systemically well.",
-    delayMs: 5000,
+    delayMs: 1800,
   },
 ];
 

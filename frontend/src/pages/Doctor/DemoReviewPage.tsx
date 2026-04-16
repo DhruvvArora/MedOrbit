@@ -1,6 +1,7 @@
 import { DoctorShell } from "../../components/doctor/DoctorShell";
 import { DEMO_SESSION_KEY } from "./LiveConsultationPage";
 import { navigate } from "./router";
+import { useAuth } from "../../context/AuthContext";
 
 interface DemoSession {
   visitId: string;
@@ -21,6 +22,9 @@ function loadDemoSession(): DemoSession | null {
 
 export function DemoReviewPage() {
   const session = loadDemoSession();
+  const { user } = useAuth();
+  const dashboardPath =
+    user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
 
   if (!session) {
     return (
@@ -28,7 +32,7 @@ export function DemoReviewPage() {
         title="Session Review"
         subtitle="No live session data found."
         actions={
-          <button onClick={() => navigate("/doctor/live-consultation")}>
+          <button className="primary-button" onClick={() => navigate("/live-consultation")}>
             Start new consultation
           </button>
         }
@@ -60,17 +64,13 @@ export function DemoReviewPage() {
       actions={
         <>
           <button onClick={() => navigate("/")}>Back to home</button>
-          <button
-            className="primary-button"
-            onClick={() => navigate("/doctor/dashboard")}
-          >
+          <button className="primary-button" onClick={() => navigate(dashboardPath)}>
             Go to dashboard
           </button>
         </>
       }
     >
       <div className="workspace-grid">
-        {/* Transcript panel */}
         <div className="panel-shell">
           <div className="panel-shell__header">
             <h3>Captured transcript</h3>
@@ -93,7 +93,6 @@ export function DemoReviewPage() {
           </div>
         </div>
 
-        {/* Insights panel */}
         <div className="panel-shell">
           <div className="panel-shell__header">
             <h3>AI draft observations</h3>
@@ -101,8 +100,8 @@ export function DemoReviewPage() {
           </div>
           <div className="panel-shell__body">
             <p className="panel-note" style={{ marginBottom: "1rem" }}>
-              These observations are AI-generated drafts from the live session.
-              They require clinician review before any patient-facing use.
+              These observations are AI-generated drafts from the live session. They require
+              clinician review before any patient-facing use.
             </p>
             {session.insights.length === 0 ? (
               <div className="empty-state">

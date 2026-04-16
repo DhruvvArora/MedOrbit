@@ -1,4 +1,4 @@
-import type { AIInsight } from "../../hooks/useDemoConsultation";
+import type { AIInsight } from "../../hooks/useLiveConsultation";
 
 interface LiveInsightsProps {
   insights: AIInsight[];

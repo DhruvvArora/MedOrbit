@@ -12,16 +12,11 @@ export default function Hero() {
             navigate("/login");
             return;
         }
-        if (user.role === "patient") {
-            alert("Consultation intelligence is available for your clinician.");
-            return;
-        }
 
         setIsTransitioning(true);
 
-        // Short delay lets the overlay animation play before we swap routes
         setTimeout(() => {
-            navigate("/doctor/live-consultation");
+            navigate("/live-consultation");
         }, 700);
     };
 
@@ -71,7 +66,7 @@ export default function Hero() {
                         className="hero-orb-cta"
                         style={{ opacity: isTransitioning ? 0 : 1, transition: "opacity 0.25s ease" }}
                     >
-                        Begin live consultation capture
+                        Live Consultation Capture - "Click the Orb"
                     </p>
                 </div>
             </section>
