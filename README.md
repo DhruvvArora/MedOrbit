@@ -4,6 +4,10 @@
 
 MedOrbit is an AI-powered healthcare platform that transforms doctor–patient conversations into structured clinical intelligence. It captures consultation context, analyzes behavioral and clinical signals, and generates draft insights, summaries, and care guidance — all reviewed and approved by the doctor before anything reaches the patient.
 
+![MedOrbit Demo](docs/videos/MedOrbit.mp4)
+
+Youtube: https://youtu.be/h0DRM2mjDn0
+
 ---
 
 ## Table of Contents
